@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<style>
+:root{
+  --ink:#16202A; --muted:#66737F; --line:#E3E7EB;
+  --accent:#0B5563; --accent2:#2E86AB; --warm:#C77C1E;
+  --pos:#1E7B4D; --neg:#B03A2E; --bg:#F6F7F9; --card:#FFFFFF;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1180px; margin:0 auto; padding:0 28px 80px}
+.hero{border-bottom:1px solid var(--line); padding:52px 0 26px; margin-bottom:8px}
+.eyebrow{font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:650}
+h1{font-size:34px; line-height:1.15; margin:12px 0 10px; font-weight:680; letter-spacing:-.015em}
+.sub{color:var(--muted); font-size:15px; max-width:780px}
+.meta{display:flex; flex-wrap:wrap; gap:26px; margin-top:22px; font-size:12.5px}
+.meta div{min-width:120px}
+.meta span{display:block; color:var(--muted); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px}
+nav{position:sticky; top:0; z-index:20; background:rgba(246,247,249,.94); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line); margin-bottom:34px}
+nav .inner{max-width:1180px; margin:0 auto; padding:11px 28px; display:flex; gap:22px; overflow-x:auto}
+nav a{color:var(--muted); text-decoration:none; font-size:12.5px; white-space:nowrap; padding-bottom:2px}
+nav a:hover{color:var(--accent); border-bottom:1px solid var(--accent)}
+section{margin:0 0 54px; scroll-margin-top:64px}
+h2{font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+   font-weight:680; margin:0 0 18px; display:flex; align-items:center; gap:12px}
+h2::after{content:""; flex:1; height:1px; background:var(--line)}
+h3{font-size:16.5px; margin:30px 0 6px; font-weight:640}
+p.note{color:var(--muted); font-size:12.5px; margin:6px 0 16px; max-width:900px}
+.lede{font-size:16.5px; line-height:1.62; margin:0 0 26px; max-width:900px}
+.lede strong{font-weight:650}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr)); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:30px}
+.card{background:var(--card); padding:16px 17px 15px}
+.card .k{font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:8px}
+.card .v{font-size:24px; font-weight:640; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.card .d{font-size:11px; color:var(--muted); margin-top:5px; line-height:1.35}
+.panel{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px 12px; margin:16px 0 24px}
+.panel img{width:100%; height:auto; display:block}
+.panel.narrow img{max-width:680px; margin:0 auto}
+.panel .cap{font-size:11.5px; color:var(--muted); margin:10px 2px 4px}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+table{width:100%; border-collapse:collapse; font-size:13px; font-variant-numeric:tabular-nums; margin:10px 0 8px}
+thead th{font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; color:var(--muted);
+  font-weight:650; text-align:right; padding:0 10px 8px; border-bottom:1px solid var(--line); white-space:nowrap}
+thead th:first-child{text-align:left}
+tbody td{padding:7px 10px; border-bottom:1px solid #F0F2F4; text-align:right; white-space:nowrap}
+tbody td:first-child{text-align:left; color:var(--ink)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.total td{font-weight:650; border-top:1px solid var(--line)}
+.pos{color:var(--pos)} .neg{color:var(--neg)} .mute{color:var(--muted)}
+.tag{display:inline-block; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); background:#EAF2F4; border-radius:3px; padding:1px 6px; margin-left:7px; vertical-align:2px}
+.bullets{margin:0 0 24px; padding:0; list-style:none; max-width:920px}
+.bullets li{position:relative; padding-left:22px; margin-bottom:11px; font-size:14.5px; line-height:1.55}
+.bullets li::before{content:""; position:absolute; left:0; top:8px; width:7px; height:7px;
+  border-radius:50%; background:var(--accent2)}
+.callout{background:#FBF7EF; border-left:3px solid var(--warm); padding:14px 18px; border-radius:0 8px 8px 0;
+  font-size:13.5px; margin:18px 0}
+.callout b{font-weight:650}
+footer{border-top:1px solid var(--line); padding-top:22px; color:var(--muted); font-size:11.5px; line-height:1.6}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:26px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+@media print{nav{display:none} body{background:#fff} .page{max-width:none}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">Ex-post portfolio analytics</div>
+  <h1>{{ title }}</h1>
+  <div class="sub">{{ subtitle }}</div>
+  <div class="meta">
+    <div><span>Inception</span>{{ meta.start }}</div>
+    <div><span>Last complete month</span>{{ meta.end }}</div>
+    <div><span>Observations</span>{{ meta.obs }}</div>
+    <div><span>Base currency</span>{{ meta.currency }}</div>
+    <div><span>Generated</span>{{ meta.generated }}</div>
+  </div>
+</header>
+
+<nav><div class="inner">
+  <a href="#summary">Summary</a>
+  <a href="#performance">Performance</a>
+  <a href="#risk">Risk</a>
+  <a href="#benchmark">Benchmark comparison</a>
+  <a href="#monthly">Monthly detail</a>
+  <a href="#holdings">Holdings &amp; attribution</a>
+  <a href="#rolling">Rolling</a>
+  <a href="#robustness">Robustness</a>
+  <a href="#appendix">Appendix</a>
+</div></nav>
+
+<main>
+
+<!-- SUMMARY -->
+<section id="summary">
+  <h2>01 &nbsp; Summary</h2>
+
+  <div class="cards">
+    {% for c in kpis %}
+    <div class="card">
+      <div class="k">{{ c.label }}</div>
+      <div class="v {{ c.cls }}">{{ c.value }}</div>
+      <div class="d">{{ c.detail }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <ul class="bullets">
+    {% for b in takeaways %}<li>{{ b|safe }}</li>{% endfor %}
+  </ul>
+
+  <div class="callout">{{ headline_note|safe }}</div>
+  {% if mtd_note %}<p class="note">{{ mtd_note|safe }}</p>{% endif %}
+</section>
+
+<!-- PERFORMANCE -->
+<section id="performance">
+  <h2>02 &nbsp; Performance</h2>
+  <p class="lede">{{ performance_lede }}</p>
+
+  <div class="panel">
+    <img src="{{ figs.growth }}" alt="Growth of {{ meta.capital }}">
+    <div class="cap">Growth of {{ meta.capital }} at inception, total return, gross of costs.
+      The linear scale shows the drawdown in proportion to the capital actually at risk.</div>
+  </div>
+
+  <h3>Return and risk summary</h3>
+  <p class="note">{{ summary_table_note }}</p>
+  {{ tables.summary|safe }}
+
+  <div class="panel">
+    <img src="{{ figs.yearly }}" alt="Calendar year returns">
+    <div class="cap">{{ meta.yearly_caption }}</div>
+  </div>
+
+  <h3>Calendar-year returns</h3>
+  {{ tables.yearly|safe }}
+</section>
+
+<!-- RISK -->
+<section id="risk">
+  <h2>03 &nbsp; Risk</h2>
+  <p class="lede">{{ risk_lede }}</p>
+
+  <div class="panel">
+    <img src="{{ figs.drawdown }}" alt="Underwater curve">
+    <div class="cap">Drawdown from running peak (underwater curve), daily. 100% of the initial
+      capital is treated as the high-water mark.</div>
+  </div>
+
+  <h3>Drawdown history</h3>
+  <p class="note">{{ drawdown_note }}</p>
+  <div class="grid2">
+    <div>
+      <div class="cap"><b>Portfolio</b></div>
+      {{ tables.drawdown_p|safe }}
+    </div>
+    <div>
+      <div class="cap"><b>Benchmark</b></div>
+      {{ tables.drawdown_b|safe }}
+    </div>
+  </div>
+
+  <h3>Tail risk and distribution</h3>
+  <p class="note">{{ risk_stats_note }}</p>
+  <div class="grid2">
+    <div>{{ tables.varcvar|safe }}</div>
+    <div>{{ tables.distribution|safe }}</div>
+  </div>
+
+  <div class="panel">
+    <img src="{{ figs.distribution }}" alt="Return distribution and Q-Q plot">
+    <div class="cap">Monthly returns: histogram against a fitted normal, and normal Q-Q plot.
+      Deviations in the tails are what Sharpe-style statistics miss.</div>
+  </div>
+</section>
+
+<!-- BENCHMARK -->
+<section id="benchmark">
+  <h2>04 &nbsp; Benchmark comparison</h2>
+  <p class="lede">{{ benchmark_lede }}</p>
+
+  <div class="panel narrow">
+    <img src="{{ figs.scatter }}" alt="Monthly returns vs benchmark">
+    <div class="cap">Each point is one month. The line is the OLS fit; the intercept is alpha
+      (annualised in the table).</div>
+  </div>
+
+  <h3>Regression and relative statistics</h3>
+  <p class="note">{{ regression_note }}</p>
+  {{ tables.regression|safe }}
+
+  <h3>Relative performance over time</h3>
+  <div class="panel">
+    <img src="{{ figs.active }}" alt="Cumulative active return">
+    <div class="cap">Cumulative active return (portfolio relative to benchmark, compounded) and the
+      cumulative beta-adjusted excess return.</div>
+  </div>
+</section>
+
+<!-- MONTHLY -->
+<section id="monthly">
+  <h2>05 &nbsp; Monthly detail</h2>
+  <p class="lede">{{ monthly_lede }}</p>
+
+  <div class="panel">
+    <img src="{{ figs.heatmap }}" alt="Monthly return heatmap">
+    <div class="cap">Portfolio monthly total returns. Colour scale clipped at ±30%; labels show
+      unclipped values.</div>
+  </div>
+
+  <h3>Full monthly record</h3>
+  <p class="note">Portfolio and benchmark total returns for every complete month, with the
+    arithmetic difference. Active return is not additive across months when compounded.</p>
+  {{ tables.monthly|safe }}
+</section>
+
+<!-- HOLDINGS -->
+<section id="holdings">
+  <h2>06 &nbsp; Holdings and attribution</h2>
+  <p class="lede">{{ holdings_lede }}</p>
+
+  <h3>Constituent behaviour</h3>
+  <p class="note">{{ holdings_note }}</p>
+  {{ tables.holdings|safe }}
+
+  <div class="panel">
+    <img src="{{ figs.attrib }}" alt="Return and risk contribution">
+    <div class="cap">Left: contribution to the cumulative portfolio return, linked so the bars
+      sum exactly to the total. Right: share of ex-post portfolio variance from marginal
+      contribution to risk.</div>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h3>Return contribution</h3>
+      {{ tables.attribution|safe }}
+    </div>
+    <div>
+      <h3>Risk contribution</h3>
+      <p class="note">Identical target weights do not imply identical risk: ex post, the same
+        weight can carry very different shares of portfolio variance.</p>
+      {{ tables.risk_contrib|safe }}
+    </div>
+  </div>
+
+  <div class="panel">
+    <img src="{{ figs.riskreturn }}" alt="Risk versus return">
+    <div class="cap">Annualised volatility against annualised return, monthly data. The benchmark
+      is the reference point for whether the concentrated basket was paid for its extra risk.</div>
+  </div>
+</section>
+
+<!-- ROLLING -->
+<section id="rolling">
+  <h2>07 &nbsp; Rolling behaviour</h2>
+  <p class="lede">{{ rolling_lede }}</p>
+
+  <div class="panel">
+    <img src="{{ figs.rolling }}" alt="Rolling 12-month metrics">
+    <div class="cap">Twelve-month rolling windows, monthly data. Rolling beta is measured against the
+      benchmark; the dashed line marks beta = 1.</div>
+  </div>
+
+  <h3>What the rolling windows show</h3>
+  <ul class="bullets">
+    {% for b in rolling_bullets %}<li>{{ b|safe }}</li>{% endfor %}
+  </ul>
+</section>
+
+<!-- ROBUSTNESS -->
+<section id="robustness">
+  <h2>08 &nbsp; Robustness</h2>
+  <p class="lede">Three checks on how much of the result depends on implementation choices rather
+    than on the holdings: the cost of the rebalancing discipline, the value of rebalancing at all, and
+    whether the risk estimate is an artefact of sampling frequency.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>Transaction costs</h3>
+      <p class="note">One-way turnover averages {{ avg_turnover }} per rebalance
+        ({{ annual_turnover }} annualised). Cost is charged at each rebalance.</p>
+      {{ tables.costs|safe }}
+    </div>
+    <div>
+      <h3>Rebalancing versus buy-and-hold</h3>
+      <p class="note">Identical universe and inception, one path rebalanced
+        {{ rebalance_freq }}, the other left to drift for the full period.</p>
+      {{ tables.rebalance|safe }}
+    </div>
+  </div>
+
+  <h3>Volatility estimate by sampling frequency</h3>
+  {{ tables.volcheck|safe }}
+  <p class="note">{{ volcheck_note }}</p>
+</section>
+
+<!-- APPENDIX -->
+<section id="appendix">
+  <h2>09 &nbsp; Appendix</h2>
+
+  <h3>Methodology</h3>
+  <div class="two">
+    <div>
+      <p class="note">
+        <b>Universe.</b> {{ meta.n_names_word|capitalize }} {{ meta.market }}-listed stocks,
+        {{ meta.equal_weight }} each at inception.
+        <b>Benchmark.</b> {{ meta.benchmark_name }} ({{ meta.benchmark }}), buy-and-hold.
+        <b>Rebalancing.</b> At each {{ rebalance_freq }} close, either through trading or by
+        construction, the weights are reset to target. Between rebalances the weights drift with
+        prices, so the reported monthly return is a true buy-and-hold return for that month.
+      </p>
+      <p class="note">
+        <b>Returns.</b> Adjusted close, so dividends are reinvested and returns are total returns.
+        Monthly returns are compounded from daily returns, not sampled from month-end prices.
+        <b>Inception.</b> The first month-end on which all {{ meta.n_series }} series have a price
+        ({{ meta.start }}); the partial first calendar month is excluded so every observation is a
+        complete month.
+      </p>
+    </div>
+    <div>
+      <p class="note">
+        <b>Statistics.</b> Volatility is the sample standard deviation of monthly returns times √12.
+        Sharpe and Sortino use annualised arithmetic mean excess return over annualised volatility
+        and downside deviation, with a {{ meta.risk_free_text }} risk-free rate. Alpha and beta are OLS on
+        monthly returns with Newey–West (HAC) standard errors. M² rescales the portfolio Sharpe
+        ratio by benchmark volatility.
+      </p>
+      <p class="note">
+        <b>Attribution.</b> Return contributions are daily weight-times-return terms, each linked
+        forward at the cumulative growth rate, so they sum exactly to the cumulative return. Risk
+        contributions are marginal contributions to variance from the monthly covariance matrix and
+        sum to 100%.
+      </p>
+    </div>
+  </div>
+
+  <h3>Data quality log</h3>
+  <p class="note">Source: Yahoo Finance daily history, cached locally. Checks run on the aligned
+    analysis window.</p>
+  {{ tables.dataquality|safe }}
+
+  <h3>Assumptions and limitations</h3>
+  <ul class="bullets">
+    <li><b>Risk-free rate.</b> A {{ meta.risk_free_text }} risk-free rate is the base case. If cash
+      yields were materially positive over the window, Sharpe and Sortino are flattered relative to
+      a cash-based calculation; ranking against the benchmark is unaffected because both series
+      share the assumption.</li>
+    <li><b>Ex-post selection.</b> The {{ meta.n_names_word }} names were chosen knowing how the
+      period turned out, and they are not a random sample of {{ meta.market }} equities. The report
+      describes what this basket did, not what a repeatable strategy would have earned.</li>
+    <li><b>One regime.</b> {{ meta.years }} years covering a single market cycle. Results are
+      conditional on that sequence.</li>
+    <li><b>Execution frictions.</b> No taxes, bid–ask spread, market impact, lot-size rounding
+      or dividend withholding tax is modelled. The cost table brackets the rebalancing component
+      only, not round-trip costs on the initial purchase.</li>
+    <li><b>Benchmark total return.</b> The vendor history records
+      {% if meta.benchmark_divs %} {{ meta.benchmark_divs }} distribution(s){% else %} no distributions{% endif %}
+      for the benchmark over this window. If the fund distributed and the series does not capture it,
+      the benchmark's total return here is understated and every active-return figure is
+      correspondingly overstated.</li>
+    <li><b>Sampling noise.</b> With {{ meta.obs.split(' ')[0] }} monthly observations, annualised
+      volatility carries a wide relative standard error and Sharpe ratios are correspondingly
+      imprecise. Differences of a few tenths in Sharpe are not meaningful.</li>
+    <li><b>Survivorship and corporate actions.</b> All {{ meta.n_names_word }} companies remain
+      listed; a basket formed at inception could have included names that did not survive.
+      Vendor-adjusted prices may be revised after splits and special dividends.</li>
+  </ul>
+
+  <h3>Reconciliation</h3>
+  {{ tables.validation|safe }}
+</section>
+
+</main>
+
+<footer>
+  <p>{{ footer }}</p>
+  <p>Sources: Yahoo Finance daily price history (cached); figures computed in Python with pandas,
+    NumPy, statsmodels and Matplotlib. This document is a quantitative description of a historical
+    portfolio and is not investment advice.</p>
+</footer>
+
+</div>
+</body>
+</html>

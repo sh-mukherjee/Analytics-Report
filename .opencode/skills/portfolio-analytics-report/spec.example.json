@@ -1,0 +1,21 @@
+{
+  "title": "HK Technology Equal-Weight Portfolio",
+  "subtitle": null,
+  "market": "Hong Kong",
+  "currency": "HKD",
+  "currency_symbol": "HK$",
+  "tickers": [
+    { "ticker": "0700.HK", "name": "Tencent Holdings", "short": "Tencent" },
+    { "ticker": "9988.HK", "name": "Alibaba Group", "short": "Alibaba" },
+    { "ticker": "9618.HK", "name": "JD.com", "short": "JD.com" },
+    { "ticker": "3690.HK", "name": "Meituan", "short": "Meituan" }
+  ],
+  "benchmark": { "ticker": "3032.HK", "name": "Hang Seng Tech Index ETF", "short": "HS Tech ETF" },
+  "weights": null,
+  "target_weight": 0.25,
+  "rebalance": "monthly",
+  "risk_free": 0.0,
+  "cost_bps": [0, 5, 10, 25],
+  "primary_cost_bps": 10,
+  "initial_capital": 1000000
+}
